@@ -1,0 +1,36 @@
+body {
+  background: #000;
+  color: #B2CDDE;
+  font-family: courier new;
+}
+
+#wrap {
+  margin: auto;
+  width: 700px;
+  height: 526px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: none;
+}
+#screen {
+  position: relative;
+  width: 700px;
+  height: 470px;
+  overflow: hidden;
+  cursor: crosshair;
+  background: -webkit-linear-gradient(red, yellow);
+  background: -o-linear-gradient(red, yellow);
+  background: -moz-linear-gradient(red, yellow);
+  background: linear-gradient(red, yellow);
+}
+#screen canvas {
+  position: absolute;
+  top: -265px;
+  left: -150px;
+}
+#screen * {
+  position: absolute;
+}

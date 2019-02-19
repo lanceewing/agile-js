@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>You've Been Glitched</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <link rel="shortcut icon" id="favicon" />
+    <link rel="stylesheet" type="text/css" href="Agile.css">
+  </head>
+  <body>
+    <div id="wrap">
+      <div id="screen">
+        <canvas id="s" width="1000" height="1000" ondragstart="return false;" ondrop="return false;" tabindex='1'></canvas>
+      </div>
+    </div>
+    <script>var $ = {};</script>
+    <script src="Agile.js"></script>
+    <script>
+      window.onload = function() { 
+          $.agile = new Agile();
+          $.agile.start();
+      };
+    </script>
+  </body>
+</html>
