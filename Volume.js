@@ -1,0 +1,7 @@
+class Volume {
+
+    constructor() {
+        
+    }
+
+}

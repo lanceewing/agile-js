@@ -1,0 +1,8 @@
+class Objects {
+
+    constructor() {
+
+    }
+
+    
+}

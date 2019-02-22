@@ -1,0 +1,7 @@
+class SoundPlayer {
+
+    constructor() {
+        
+    }
+
+}

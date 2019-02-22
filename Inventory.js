@@ -1,0 +1,7 @@
+class Inventory {
+
+    constructor() {
+        
+    }
+
+}
