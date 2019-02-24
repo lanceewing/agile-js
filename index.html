@@ -9,15 +9,30 @@
   <body>
     <div id="wrap">
       <div id="screen">
-        <canvas id="s" width="1000" height="1000" ondragstart="return false;" ondrop="return false;" tabindex='1'></canvas>
+        <canvas id="s" width="320" height="200" ondragstart="return false;" ondrop="return false;" tabindex='1'></canvas>
       </div>
     </div>
     <script>var $ = {};</script>
+    <script src="Volume.js"></script>
+    <script src="Logic.js"></script>
+    <script src="Picture.js"></script>
+    <script src="View.js"></script>
+    <script src="Sound.js"></script>
+    <script src="ByteStream.js"></script>
+    <script src="Words.js"></script>
+    <script src="AnimatedObject.js"></script>
+    <script src="Defines.js"></script>
+    <script src="ScriptBuffer.js"></script>
+    <script src="Objects.js"></script>
+    <script src="GameState.js"></script>
+    <script src="Interpreter.js"></script>
+    <script src="Game.js"></script>
+    <script src="UserInput.js"></script>
     <script src="Agile.js"></script>
     <script>
       window.onload = function() { 
-          $.agile = new Agile();
-          $.agile.start();
+        $.agile = new Agile(new Game("games/kq1"), document.getElementById("s"));
+        $.agile.start();
       };
     </script>
   </body>

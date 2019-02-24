@@ -1,172 +1,168 @@
 class Defines {
 
-    constructor() {
-
-    }
-
     /* ------------------------ System variables -------------------------- */
 
-    static CURROOM = 0;           /* current.room */
+    static get CURROOM () { return 0; }           /* current.room */
 
-    static PREVROOM = 1;          /* previous.room */
+    static get PREVROOM () { return 1; }          /* previous.room */
 
-    static EGOEDGE = 2;           /* edge.ego.hit */
+    static get EGOEDGE () { return 2; }           /* edge.ego.hit */
 
-    static SCORE = 3;             /* score */
+    static get SCORE () { return 3; }             /* score */
 
-    static OBJHIT = 4;            /* obj.hit.edge */
+    static get OBJHIT () { return 4; }            /* obj.hit.edge */
 
-    static OBJEDGE = 5;           /* edge.obj.hit */
+    static get OBJEDGE () { return 5; }           /* edge.obj.hit */
 
-    static EGODIR = 6;            /* ego's direction */
+    static get EGODIR () { return 6; }            /* ego's direction */
 
-    static MAXSCORE = 7;          /* maximum possible score */
+    static get MAXSCORE () { return 7; }          /* maximum possible score */
 
-    static MEMLEFT = 8;           /* remaining heap space in pages */
+    static get MEMLEFT () { return 8; }           /* remaining heap space in pages */
 
-    static UNKNOWN_WORD = 9;      /* number of unknown word */
+    static get UNKNOWN_WORD () { return 9; }      /* number of unknown word */
 
-    static ANIMATION_INT = 10;    /* animation interval */
+    static get ANIMATION_INT () { return 10; }    /* animation interval */
 
-    static SECONDS = 11;
+    static get SECONDS () { return 11; }
 
-    static MINUTES = 12;          /* time since game start */
+    static get MINUTES () { return 12; }          /* time since game start */
 
-    static HOURS = 13;
+    static get HOURS () { return 13; }
 
-    static DAYS = 14;
+    static get DAYS () { return 14; }
 
-    static DBL_CLK_DELAY = 15;
+    static get DBL_CLK_DELAY () { return 15; }
 
-    static CURRENT_EGO = 16;
+    static get CURRENT_EGO () { return 16; }
 
-    static ERROR_NUM = 17;
+    static get ERROR_NUM () { return 17; }
 
-    static ERROR_PARAM = 18;
+    static get ERROR_PARAM () { return 18; }
 
-    static LAST_CHAR = 19;
+    static get LAST_CHAR () { return 19; }
 
-    static MACHINE_TYPE = 20;
+    static get MACHINE_TYPE () { return 20; }
 
-    static PRINT_TIMEOUT = 21;
+    static get PRINT_TIMEOUT () { return 21; }
 
-    static NUM_VOICES = 22;
+    static get NUM_VOICES () { return 22; }
 
-    static ATTENUATION = 23;
+    static get ATTENUATION () { return 23; }
 
-    static INPUTLEN = 24;
+    static get INPUTLEN () { return 24; }
 
-    static SELECTED_OBJ = 25;     /* selected object number */
+    static get SELECTED_OBJ () { return 25; }     /* selected object number */
 
-    static MONITOR_TYPE = 26;
+    static get MONITOR_TYPE () { return 26; }
 
 
     /* ------------------------ System flags ------------------------ */
 
-    static ONWATER = 0;               /* on.water */
+    static get ONWATER () { return 0; }               /* on.water */
 
-    static SEE_EGO = 1;               /* can we see ego? */
+    static get SEE_EGO () { return 1; }               /* can we see ego? */
 
-    static INPUT = 2;                 /* have.input */
+    static get INPUT () { return 2; }                 /* have.input */
 
-    static HITSPEC = 3;               /* hit.special */
+    static get HITSPEC () { return 3; }               /* hit.special */
 
-    static HADMATCH = 4;              /* had a word match */
+    static get HADMATCH () { return 4; }              /* had a word match */
 
-    static INITLOGS = 5;              /* signal to init logics */
+    static get INITLOGS () { return 5; }              /* signal to init logics */
 
-    static RESTART = 6;               /* is a restart in progress? */
+    static get RESTART () { return 6; }               /* is a restart in progress? */
 
-    static NO_SCRIPT = 7;             /* don't add to the script buffer */
+    static get NO_SCRIPT () { return 7; }             /* don't add to the script buffer */
 
-    static DBL_CLK = 8;               /* enable double click on joystick */
+    static get DBL_CLK () { return 8; }               /* enable double click on joystick */
 
-    static SOUNDON = 9;               /* state of sound playing */
+    static get SOUNDON () { return 9; }               /* state of sound playing */
 
-    static TRACE_ENABLE = 10;         /* to enable tracing */
+    static get TRACE_ENABLE () { return 10; }         /* to enable tracing */
 
-    static HAS_NOISE = 11;            /* does machine have noise channel */
+    static get HAS_NOISE () { return 11; }            /* does machine have noise channel */
 
-    static RESTORE = 12;              /* restore game in progress */
+    static get RESTORE () { return 12; }              /* restore game in progress */
 
-    static ENABLE_SELECT = 13;        /* allow selection of objects from inventory screen */
+    static get ENABLE_SELECT () { return 13; }        /* allow selection of objects from inventory screen */
 
-    static ENABLE_MENU = 14;
+    static get ENABLE_MENU () { return 14; }
 
-    static LEAVE_WIN = 15;            /* leave windows on the screen */
+    static get LEAVE_WIN () { return 15; }            /* leave windows on the screen */
 
-    static NO_PRMPT_RSTRT = 16;       /* don't prompt on restart */
+    static get NO_PRMPT_RSTRT () { return 16; }       /* don't prompt on restart */
 
 
     /* ------------------------ Miscellaneous ------------------------ */
 
-    static NUMVARS = 256;             /* number of vars */
+    static get NUMVARS () { return 256; }             /* number of vars */
 
-    static NUMFLAGS = 256;            /* number of flags */
+    static get NUMFLAGS () { return 256; }            /* number of flags */
 
-    static NUMCONTROL = 50;           /* number of controllers */
+    static get NUMCONTROL () { return 50; }           /* number of controllers */
 
-    static NUMWORDS = 10;             /* maximum # of words recognized in input */
+    static get NUMWORDS () { return 10; }             /* maximum # of words recognized in input */
 
-    static NUMANIMATED = 256;         /* maximum # of animated objects */
+    static get NUMANIMATED () { return 256; }         /* maximum # of animated objects */
 
-    static MAXVAR = 255;              /* maximum value for a var */
+    static get MAXVAR () { return 255; }              /* maximum value for a var */
 
-    static TEXTCOLS = 40;             /* number of columns of text */
+    static get TEXTCOLS () { return 40; }             /* number of columns of text */
 
-    static TEXTLINES = 25;            /* number of lines of text */
+    static get TEXTLINES () { return 25; }            /* number of lines of text */
 
-    static MAXINPUT = 40;             /* maximum length of user input */
+    static get MAXINPUT () { return 40; }             /* maximum length of user input */
 
-    static DIALOGUE_WIDTH = 35;       /* maximum width of dialog box */
+    static get DIALOGUE_WIDTH () { return 35; }       /* maximum width of dialog box */
 
-    static NUMSTRINGS = 24;           /* number of user-definable strings */
+    static get NUMSTRINGS () { return 24; }           /* number of user-definable strings */
 
-    static STRLENGTH = 40;            /* maximum length of user strings */
+    static get STRLENGTH () { return 40; }            /* maximum length of user strings */
 
-    static GLSIZE = 40;               /* maximum length for GetLine calls, used internally for things like save dialog */
+    static get GLSIZE () { return 40; }               /* maximum length for GetLine calls, used internally for things like save dialog */
 
-    static PROMPTSTR = 0;             /* string number of prompt */
+    static get PROMPTSTR () { return 0; }             /* string number of prompt */
 
-    static ID_LEN = 7;                /* length of gameID string */
+    static get ID_LEN () { return 7; }                /* length of gameID string */
 
-    static MAXDIST = 50;              /* maximum movement distance */
+    static get MAXDIST () { return 50; }              /* maximum movement distance */
 
-    static MINDIST = 6;               /* minimum movement distance */
+    static get MINDIST () { return 6; }               /* minimum movement distance */
 
 
     /* ------------------------ Inventory item constants --------------------------- */
 
-    static LIMBO = 0;                 /* room number of objects that are gone */
+    static get LIMBO () { return 0; }                 /* room number of objects that are gone */
 
-    static CARRYING = 255;            /* room number of objects in ego's posession */
+    static get CARRYING () { return 255; }            /* room number of objects in ego's posession */
 
 
     /* ------------------------ Default status and input row numbers ------------------------ */
 
-    static STATUSROW = 21;
+    static get STATUSROW () { return 21; }
 
-    static INPUTROW = 23;
+    static get INPUTROW () { return 23; }
 
 
     /* ------------------------ Screen edges ------------------------ */
 
-    static TOP = 1;
+    static get TOP () { return 1; }
 
-    static RIGHT = 2;
+    static get RIGHT () { return 2; }
 
-    static BOTTOM = 3;
+    static get BOTTOM () { return 3; }
 
-    static LEFT = 4;
+    static get LEFT () { return 4; }
 
-    static MINX = 0;
+    static get MINX () { return 0; }
 
-    static MINY = 0;
+    static get MINY () { return 0; }
 
-    static MAXX = 159;
+    static get MAXX () { return 159; }
 
-    static MAXY = 167;
+    static get MAXY () { return 167; }
 
-    static HORIZON = 36;
+    static get HORIZON () { return 36; }
 
 }

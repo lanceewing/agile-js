@@ -1,0 +1,22 @@
+{
+  "name": "agile",
+  "version": "1.0.0",
+  "description": "Javascript port of my C# AGI game engine (known as AGILE).",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lanceewing/agile-js.git"
+  },
+  "author": "Lance Ewing",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lanceewing/agile-js/issues"
+  },
+  "homepage": "https://github.com/lanceewing/agile-js#readme",
+  "devDependencies": {
+    "electron": "^4.0.5"
+  }
+}

@@ -1,6 +1,6 @@
 class Picture {
 
-    constructor() {
+    constructor(rawData) {
 
     }
 

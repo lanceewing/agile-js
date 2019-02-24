@@ -1,4 +1,4 @@
-class AnimatedObjects {
+class AnimatedObject {
 
     constructor() {
         

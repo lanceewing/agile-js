@@ -1,25 +1,29 @@
 class Agile {
 
-    constructor() {
+    constructor(game, canvas) {
         this.targetElaspedTime = (1000 / 60);
+        this.ctx = canvas.getContext('2d');
+        this.imgData = this.ctx.createImageData(160, 120);
+        this.pixels = [];
+        this.game = game;
+        this.userInput = new UserInput();
+        this.interpreter = new Interpreter(game, this.userInput, this.pixels);
     }
 
-    start() {
+    async start() {
+        await this.game.decodeGame();
 
-        
         // AGI tick happens 60 times a second, and sometimes previous tick takes longer
         // than 16.7 ms, but we need the next one to run, because sometimes the previous
         // one is waiting for something to change that the next tick changes!
-        window.setTimeout(function() { _tick(); }, this.targetElaspedTime);
+        window.setInterval(function() { $.agile.tick(); }, this.targetElaspedTime);
 
-        render();
+        this.render();
     }
 
-    _tick() {
-        $.agile.tick(new Date().getTime());
-    }
+    tick() {
+        const now = new Date().getTime();
 
-    tick(now) {
         // Calculates the time since the last invocation of the game loop.
         this.deltaTime = now - (this.lastTime? this.lastTime : (now - 16));
         this.lastTime = now;
@@ -31,7 +35,7 @@ class Agile {
         while (this.deltaTime > this.targetElaspedTime)
         {
             this.deltaTime -= this.targetElaspedTime;
-            //interpreter.Tick();
+            this.interpreter.tick();
         }
     }
 
@@ -43,6 +47,16 @@ class Agile {
         // Immediately request another invocation on the next frame.
         requestAnimationFrame(this._render);
 
-        // TODO: Simply render the screen. Maybe a blit? Not sure if we need a separate render call, or if the tick will work by itself.
+        // Blit the pixel data to the canvas. That's all we do for a frame render.
+        let i = 0;
+        let j = 0;
+        for (; i < 64000; i++) {
+            let d = this.pixels[i];
+            this.imgData.data[j++] = (d >> 16) & 0xFF;
+            this.imgData.data[j++] = (d >> 8) & 0xFF;
+            this.imgData.data[j++] = d & 0xFF;
+            this.imgData.data[j++] = 0xFF;
+        }
+        this.ctx.putImageData(this.imgData, 0, 0);
     }
 }

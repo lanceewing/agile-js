@@ -1,6 +1,6 @@
 class Logic {
 
-    constructor() {
+    constructor(rawData) {
 
     }
 

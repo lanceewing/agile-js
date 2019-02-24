@@ -1,6 +1,6 @@
 class Words {
 
-    constructor() {
+    constructor(rawWordsData) {
 
     }
 

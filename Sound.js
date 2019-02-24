@@ -1,6 +1,6 @@
 class Sound {
 
-    constructor() {
+    constructor(rawData) {
 
     }
 

@@ -1,6 +1,6 @@
 class View {
 
-    constructor() {
+    constructor(rawData) {
 
     }
 
