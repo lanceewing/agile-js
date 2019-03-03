@@ -1,46 +1,23 @@
 class Resource {
 
     constructor() {
-        
+        this.isLoaded = false;
+        this.index = 0;
     }
 
-    loadFile(name) {
-        
-    }
+    /**
+     * Handles both the encrypt and decrypt operations. They're both the same, as the XOR is reversed
+     * if you do it a second time.
+     * 
+     * @param {*} rawData 
+     * @param {*} start 
+     * @param {*} end 
+     */
+    crypt(rawData, start, end) {
+        let avisDurganPos = 0;
 
-    downloadAllFiles(path, files, done) {
-        let buffers = {};
-        let leftToDownload = files.length;
-
-        function getBinary(url, success) {
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', url, true);
-            xhr.responseType = 'arraybuffer';
-            xhr.onreadystatechange = () => {
-                if (xhr.readyState == 4) {
-                    if (xhr.response === null) {
-                        throw "Fatal error downloading '" + url + "'";
-                    } else {
-                        console.log("Successfully downloaded '" + url + "'");
-                        success(xhr.response);
-                    }
-                }
-            };
-            xhr.send();
-        }
-
-        function handleFile(num) {
-            getBinary(path + files[num], (buffer) => {
-                buffers[files[num]] = new ByteStream(buffer);
-                leftToDownload--;
-                if (leftToDownload === 0) {
-                    done(buffers);
-                }
-            });
-        }
-
-        for (var i = 0; i < files.length; i++) {
-            handleFile(i);
+        for (let i = start; i < end; i++) {
+            rawData[i] ^= (("Avis Durgan".charCodeAt(avisDurganPos++ % 11)) & 0xFF);
         }
     }
 }
