@@ -89,7 +89,7 @@ class Logic extends Resource {
                 let operation = ACTION_OPERATIONS[actionOpcode];
                 let operands = [];
 
-                for (let operandType in operation.OperandTypes)
+                for (let operandType of operation.operandTypes)
                 {
                     operands.push(new Operand(operandType, stream.readByte()));
                 }
@@ -147,7 +147,7 @@ class Logic extends Resource {
                 let operation = TEST_OPERATIONS[conditionOpcode];
                 let operands = [];
 
-                for (let operandType in operation.operandTypes) {
+                for (let operandType of operation.operandTypes) {
                     operands.push(new Operand(operandType, stream.readByte()));
                 }
 
@@ -172,9 +172,9 @@ class Logic extends Resource {
         let numOfMessages = rawData[messagesOffset + 0];
         let startOfText = messagesOffset + 3 + (numOfMessages * 2);
 
-        if (messagesCrypted) {
+        if (this.messagesCrypted) {
             // Decrypt the message text section.
-            this.crypt(rawData, startOfText, rawData.Length);
+            this.crypt(rawData, startOfText, rawData.length);
         }
 
         // Message numbers start at 1, so we'll set index 0 to empty.
@@ -194,7 +194,7 @@ class Logic extends Resource {
                 while (rawData[msgEnd++] != 0) ;
 
                 // Convert the byte data between the message start and end in to an ASCII string.
-                msgText = String.fromCharCode(rawData.slice(msgStart, msgEnd - msgStart - 1));
+                msgText = String.fromCharCode.apply(null, rawData.slice(msgStart, msgEnd - 1));
             }
 
             this.messages.push(msgText);
@@ -358,9 +358,9 @@ class Operation {
 
         // If the brackets are not next to each other, the operation has operands.
         if ((closeBracket - openBracket) > 1) {
-            let operandsStr = format.substring(openBracket + 1, (closeBracket - openBracket));
+            let operandsStr = format.substring(openBracket + 1, closeBracket);
 
-            for (let operandTypeStr in operandsStr.split(',')) {
+            for (let operandTypeStr of operandsStr.split(',')) {
                 this.operandTypes.push(OperandType.valueOf(operandTypeStr));
             }
         }

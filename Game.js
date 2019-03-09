@@ -21,7 +21,7 @@ class Game {
 
     async readWordsFile() {
         let rawWordsData = await this.fetchFile(this.gameFolder + "/WORDS.TOK");
-        this.objects = new Words(new Uint8Array(rawWordsData));
+        this.words = new Words(new Uint8Array(rawWordsData));
     }
 
     async readV2Resources() {

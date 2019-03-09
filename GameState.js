@@ -26,7 +26,8 @@ class GameState {
         this.pictures = [];
         this.views = [];
         this.sounds = [];
-        this.objects = new Objects(game.objects);
+        this.objects = new Objects();
+        this.objects.copy(game.objects);
         this.words = game.words;
         this.maxDrawn = 15;
         this.priorityBase = 48;
@@ -134,11 +135,11 @@ class GameState {
         this.stoppedObjectList = [];
 
         // Store resources in arrays indexed by number for easy lookup.
-        for (volume of game.volumes) {
-            for ([index, logic] of volume.logics.entries()) { this.logics[index] = logic; }
-            for ([index, picture] of volume.pictures.entries()) { this.pictures[index] = picture; }
-            for ([index, view] of volume.views.entries()) { this.views[index] = view; }
-            for ([index, sound] of volume.sounds.entries()) { this.sounds[index] = sound; }
+        for (let volume of game.volumes) {
+            for (let [index, logic] of volume.logics.entries()) { this.logics[index] = logic; }
+            for (let [index, picture] of volume.pictures.entries()) { this.pictures[index] = picture; }
+            for (let [index, view] of volume.views.entries()) { this.views[index] = view; }
+            for (let [index, sound] of volume.sounds.entries()) { this.sounds[index] = sound; }
         }
 
         // Logic 0 is always marked as loaded. It never gets unloaded.

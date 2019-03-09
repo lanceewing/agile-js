@@ -5,7 +5,18 @@ class Objects extends Resource {
         this.objects = [];
         this.numOfAnimatedObjects = 0;
         this.crypted = false;
-        this.decode(rawData);
+        if (rawData) {
+            this.decode(rawData);
+        }
+    }
+
+    copy(objects) {
+        this.numOfAnimatedObjects = objects.numOfAnimatedObjects;
+        this.objects = [];
+        this.crypted = false;
+        for (let obj of objects.objects) {
+            this.objects.push({ name: obj.name, room: obj.room });
+        }        
     }
 
     get(objectNum) {
@@ -21,7 +32,7 @@ class Objects extends Resource {
     }
 
     isCrypt(rawData) {
-        return ((rawData[1] & 0xF0) == ('v' & 0xF0));
+        return ((rawData[1] & 0xF0) == ('v'.charCodeAt(0) & 0xF0));
     }
 
     /**
@@ -33,7 +44,7 @@ class Objects extends Resource {
         // Decrypt the raw data.
         if (this.crypted = this.isCrypt(rawData))
         {
-            this.crypt(rawData, 0, rawData.Length);
+            this.crypt(rawData, 0, rawData.length);
         }
 
         // The first two bytes point the start of the object names.
@@ -51,9 +62,9 @@ class Objects extends Resource {
             while (rawData[objectNameEnd++] != 0) ;
 
             // Convert the byte data between the object name start and end in to an ASCII string.
-            let objectName = String.fromCharCode(rawData.slice(objectNameStart, objectNameEnd - objectNameStart - 1));
+            let objectName = String.fromCharCode.apply(null, (rawData.slice(objectNameStart, objectNameEnd - 1)));
 
-            this.objects.push(new Object(objectName, rawData[marker + 2]));
+            this.objects.push({ name: objectName, room: rawData[marker + 2] });
         }
     }
 }

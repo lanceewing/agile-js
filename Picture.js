@@ -250,42 +250,42 @@ class Picture extends Resource {
             if (opCode >= 0xF0) {
                 // opcode
                 switch (opCode) {
-                    case PicOpcode.PicSetColor:
+                    case 0xF0:
                         this.picEnabled = true;
                         this.picColor = this.stream.readByte();
                         break;
-                    case PicOpcode.PicDisable:
+                    case 0xF1:
                         this.picEnabled = false;
                         break;
-                    case PicOpcode.PriSetcolor:
+                    case 0xF2:
                         this.priEnabled = true;
                         this.priColor = this.stream.readByte();
                         break;
-                    case PicOpcode.PriDisable:
+                    case 0xF3:
                         this.priEnabled = false;
                         break;
-                    case PicOpcode.DrawYCorner:
+                    case 0xF4:
                         this.opDrawYCorner();
                         break;
-                    case PicOpcode.DrawXCorner:
+                    case 0xF5:
                         this.opDrawXCorner();
                         break;
-                    case PicOpcode.DrawAbs:
+                    case 0xF6:
                         this.opDrawAbs();
                         break;
-                    case PicOpcode.DrawRel:
+                    case 0xF7:
                         this.opDrawRel();
                         break;
-                    case PicOpcode.DrawFill:
+                    case 0xF8:
                         this.opFillFastQueue();
                         break;
-                    case PicOpcode.SetPen:
+                    case 0xF9:
                         this.opSetPen();
                         break;
-                    case PicOpcode.DrawPen:
+                    case 0xFA:
                         this.opDrawPen();
                         break;
-                    case PicOpcode.End:
+                    case 0xFF:
                         processing = false;
                         break;
                 }

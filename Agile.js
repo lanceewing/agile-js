@@ -7,11 +7,12 @@ class Agile {
         this.pixels = [];
         this.game = game;
         this.userInput = new UserInput();
-        this.interpreter = new Interpreter(game, this.userInput, this.pixels);
     }
 
     async start() {
         await this.game.decodeGame();
+
+        this.interpreter = new Interpreter(this.game, this.userInput, this.pixels);
 
         // AGI tick happens 60 times a second, and sometimes previous tick takes longer
         // than 16.7 ms, but we need the next one to run, because sometimes the previous

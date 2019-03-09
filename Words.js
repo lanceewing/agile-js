@@ -3,7 +3,7 @@ class Words {
     constructor(rawData) {
         this.wordToNumber = new Map();
         this.numberToWords = new Map();
-        decode(rawData);
+        this.decode(rawData);
     }
 
     /**
@@ -33,7 +33,7 @@ class Words {
             }
             while (data < 0x80);   // The word ends when the top bit is set.
 
-            let wordStr = String.fromCharCode(wordStr.slice(0, wordPos));
+            let wordStr = String.fromCharCode.apply(null, newWord.slice(0, wordPos));
 
             let wordNum = (rawData[offset++] << 8) + rawData[offset++];
 

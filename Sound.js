@@ -3,7 +3,7 @@ class Sound extends Resource {
     constructor(rawData) {
         super();
         this.notes = [];
-        decode(rawData);
+        this.decode(rawData);
     }
 
     decode(rawData) {
@@ -11,6 +11,8 @@ class Sound extends Resource {
         {
             let start = rawData[n * 2 + 0] | (rawData[n * 2 + 1] << 8);
             let end = ((rawData[n * 2 + 2] | (rawData[n * 2 + 3] << 8))) - 5;
+
+            this.notes[n] = [];
 
             for (let pos = start; pos < end; pos += 5)
             {
