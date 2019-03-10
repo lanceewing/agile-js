@@ -1,6 +1,6 @@
 class Commands {
 
-    constructor() {
+    constructor(pixels, state, userInput, textGraphics, parser, soundPlayer, menu) {
         
     }
 

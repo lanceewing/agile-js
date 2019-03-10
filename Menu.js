@@ -1,6 +1,6 @@
 class Menu {
 
-    constructor() {
+    constructor(state, textGraphics, pixels, userInput) {
         
     }
 

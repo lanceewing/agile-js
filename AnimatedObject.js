@@ -1,7 +1,10 @@
 class AnimatedObject {
 
-    constructor() {
+    constructor(state, objectNum) {
         
     }
 
+    reset(fullReset = false) {
+
+    }
 }

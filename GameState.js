@@ -156,4 +156,84 @@ class GameState {
     get random() {
         return Math.random;
     }
+
+    /**
+     * Performs the initialisation of the state of the game being interpreted. Usually called whenever
+     * the game starts or restarts.
+     */
+    init() {
+        this.clearVars();
+        this.vars[Defines.MACHINE_TYPE] = 0;  // IBM PC
+        this.vars[Defines.MONITOR_TYPE] = 3;  // EGA
+        this.vars[Defines.INPUTLEN] = Defines.MAXINPUT + 1;
+        this.vars[Defines.NUM_VOICES] = 3;
+
+        // The game would usually set this, but no harm doing it here (2 = NORMAL).
+        this.vars[Defines.ANIMATION_INT] = 2;
+
+        // Set to the maximum memory amount as recognised by AGI.
+        this.vars[Defines.MEMLEFT] = 255;
+
+        this.clearFlags();
+        this.flags[Defines.HAS_NOISE] = true;
+        this.flags[Defines.INITLOGS] = true;
+        this.flags[Defines.SOUNDON] = true;
+
+        // Set the text attribute to default (black on white), and display the input line.
+        this.foregroundColour = 15;
+        this.backgroundColour = 0;
+
+        this.horizon = Defines.HORIZON;
+        this.userControl = true;
+        this.blocking = false;
+
+        this.clearVisualPixels();
+        this.graphicsMode = true;
+        this.acceptInput = false;
+        this.showStatusLine = false;
+        this.currentLogNum = 0;
+        this.currentInput = "";
+        this.lastInput = "";
+        this.simpleName = "";
+        this.keyToControllerMap.clear();
+        this.menuEnabled = true;
+        this.holdKey = false;
+
+        for (let aniObj of this.animatedObjects) {
+            aniObj.reset(true);
+        }
+
+        this.stoppedObjectList = [];
+        this.updateObjectList = [];
+
+        this.objects = new Objects();
+        this.objects.copy(this.game.objects);
+    }
+
+    /**
+     * Clears all of the AGI flags to be false.
+     */
+    clearFlags() {
+        for (let i = 0; i < Defines.NUMFLAGS; i++) {
+            this.flags[i] = false;
+        }
+    }
+
+    /**
+     * Clears all of the AGI variables to be zero.
+     */
+    clearVars() {
+        for (let i = 0; i < Defines.NUMVARS; i++) {
+            this.vars[i] = 0;
+        }
+    }
+
+    /**
+     * Clears the VisualPixels screen to it's initial black state.
+     */
+    clearVisualPixels() {
+        for (let i=0; i < this.visualPixels.length; i++) {
+            this.visualPixels[i] = AGI_PALETTE[0];
+        }
+    }
 }

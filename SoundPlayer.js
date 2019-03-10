@@ -1,6 +1,6 @@
 class SoundPlayer {
 
-    constructor() {
+    constructor(state) {
         
     }
 

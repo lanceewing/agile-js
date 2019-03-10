@@ -1,6 +1,6 @@
 class Parser {
 
-    constructor() {
+    constructor(state) {
         
     }
 
