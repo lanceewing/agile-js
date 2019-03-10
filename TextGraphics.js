@@ -7,4 +7,17 @@ class TextGraphics {
     updateInputLine(clearWhenNotEnabled = true) {
         
     }
+
+    updateStatusLine() {
+
+    }
+
+    isWindowOpen() {
+        // TODO: Implement.
+        return false;
+    }
+
+    drawWindow() {
+        // TODO: Implement.
+    }
 }
