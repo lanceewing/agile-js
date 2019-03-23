@@ -150,11 +150,14 @@ class GameState {
         return this.animatedObjects[0];
     }
 
-    /**
-     * For making random decisions.
-     */    
-    get random() {
-        return Math.random;
+    getRandomInt(a, b) {
+        if (b) {
+            a = Math.ceil(a);
+            b = Math.floor(b);
+            return Math.floor(Math.random() * (b - a)) + a;
+        } else {
+            return Math.floor(Math.random() * Math.floor(a));
+        }
     }
 
     /**
