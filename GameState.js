@@ -232,6 +232,15 @@ class GameState {
     }
 
     /**
+     * Clears all of the AGI controllers to be false.
+     */
+    clearControllers() {
+        for (let i = 0; i < Defines.NUMCONTROL; i++) {
+            this.controllers[i] = false;
+        }
+    }
+
+    /**
      * Clears the VisualPixels screen to it's initial black state.
      */
     clearVisualPixels() {

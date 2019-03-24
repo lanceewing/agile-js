@@ -161,15 +161,135 @@ class Interpreter {
      * involves the cell cycling, the movement, and the drawing to the screen.
      */
     animateObjects() {
+        // Ask each AnimatedObject to update its loop and cell number if required.
+        for (let aniObj of this.state.animatedObjects) {
+            aniObj.updateLoopAndCel();
+        }
 
+        this.state.Vars[Defines.EGOEDGE] = 0;
+        this.state.Vars[Defines.OBJHIT] = 0;
+        this.state.Vars[Defines.OBJEDGE] = 0;
+
+        // Restore the backgrounds of the previous drawn cels for each AnimatedObject.
+        this.state.restoreBackgrounds(this.state.updateObjectList);
+
+        // Ask each AnimatedObject to move if it needs to.
+        for (let aniObj of this.state.animatedObjects) {
+            aniObj.updatePosition();
+        }
+
+        // Draw the AnimatedObjects to screen in priority order.
+        this.state.drawObjects(this.state.makeUpdateObjectList());
+        this.state.showObjects(this.pixels, this.state.updateObjectList);
+
+        // Clear the 'must be on water or land' bits for ego.
+        this.state.ego.stayOnLand = false;
+        this.state.ego.stayOnWater = false;
     }
 
     /**
      * Processes the user's input.
      */
     processUserInput() {
+        this.state.clearControllers();
+        this.state.flags[Defines.INPUT] = false;
+        this.state.flags[Defines.HADMATCH] = false;
+        this.state.vars[Defines.UNKNOWN_WORD] = 0;
+        this.state.vars[Defines.LAST_CHAR] = 0;
 
+        // If opening of the menu was "triggered" in the last cycle, we open it now before processing the rest of the input.
+        if (this.state.menuOpen) {
+            this.menu.menuInput();
+        }
+
+        // F12 shows the priority and control screens.
+        if (this.userInput.keys[123] && !userInput.oldKeys[123]) {
+            while (this.userInput.keys[123]);
+            this.commands.showPriorityScreen();
+        }
+
+        // Handle arrow keys.
+        if (this.state.userControl) {
+            if (this.state.holdKey) {
+                // In "hold key" mode, the ego direction directly reflects the direction key currently being held down.
+                let direction = 0;
+                if (this.userInput.Keys[38]) direction = 1;        // UP
+                if (this.userInput.Keys[33]) direction = 2;        // PAGEUP
+                if (this.userInput.Keys[39]) direction = 3;        // RIGHT
+                if (this.userInput.Keys[34]) direction = 4;        // PAGEDOWN
+                if (this.userInput.Keys[40]) direction = 5;        // DOWN
+                if (this.userInput.Keys[35]) direction = 6;        // END
+                if (this.userInput.Keys[37]) direction = 7;        // LEFT
+                if (this.userInput.Keys[36]) direction = 8;        // HOME
+                this.state.vars[Defines.EGODIR] = direction;
+            }
+            else {
+                // Whereas in "release key" mode, the direction key press will toggle movement in that direction.
+                let direction = 0;
+                if (this.userInput.keys[38] && !this.userInput.oldKeys[38]) direction = 1;    // UP
+                if (this.userInput.keys[33] && !this.userInput.oldKeys[33]) direction = 2;    // PAGEUP
+                if (this.userInput.keys[39] && !this.userInput.oldKeys[39]) direction = 3;    // RIGHT
+                if (this.userInput.keys[34] && !this.userInput.oldKeys[34]) direction = 4;    // PAGEDOWN
+                if (this.userInput.keys[40] && !this.userInput.oldKeys[40]) direction = 5;    // DOWN
+                if (this.userInput.keys[35] && !this.userInput.oldKeys[35]) direction = 6;    // END
+                if (this.userInput.keys[37] && !this.userInput.oldKeys[37]) direction = 7;    // LEFT
+                if (this.userInput.keys[36] && !this.userInput.oldKeys[36]) direction = 8;    // HOME
+                if (direction > 0) {
+                    this.state.vars[Defines.EGODIR] = (this.state.vars[Defines.EGODIR] == direction ? 0 : direction);
+                }
+            }
+        }
+
+        // Check all waiting characters.
+        let ch;
+        while ((ch = this.userInput.getKey()) > 0) {
+            // Check controller matches. They take precedence.
+            if (this.state.keyToControllerMap.has(ch)) {
+                this.state.controllers[this.state.keyToControllerMap[ch]] = true;
+            }
+            else if ((ch >= (0x80000 + 'A'.charCodeAt(0))) && (ch <= (0x80000 + 'Z'.charCodeAt(0))) && 
+                     (this.state.keyToControllerMap.has(0x80000 + String.fromCharCode(ch - 0x80000).toLowerCase().charCodeAt(0)))) {
+                // We map the lower case alpha chars in the key map, so check for upper case and convert to
+                // lower when setting controller state. This allows for if the user has CAPS LOCK on.
+                this.state.controllers[this.state.keyToControllerMap[0x80000 + String.fromCharCode(ch - 0x80000).toLowerCase().charCodeAt(0)]] = true;
+            }
+            else if ((ch & 0xF0000) == 0x80000)  // Standard char from a keypress event.  
+            {
+                this.state.vars[Defines.LAST_CHAR] = (ch & 0xff);
+
+                if (this.state.acceptInput)  {
+                    // Handle normal characters for user input line.
+                    if ((this.state.strings[0].length + (this.state.cursorCharacter != '' ? 1 : 0) + this.state.currentInput.length) < Defines.MAXINPUT)
+                    {
+                        this.state.currentInput += String.fromCharCode(ch & 0xff);
+                    }
+                }
+            }
+            else if ((ch & 0xFF) == ch)   // Unmodified Keys value, i.e. there is no modifier. 
+            {
+                this.state.vars[Defines.LAST_CHAR] = (ch & 0xff);
+
+                if (this.state.acceptInput) {
+                    // Handle enter and backspace for user input line.
+                    switch (ch) {
+                        case 13:  // ENTER
+                            if (this.state.currentInput.length > 0)
+                            {
+                                this.parser.parse(this.state.currentInput);
+                                this.state.lastInput = this.state.currentInput;
+                                this.state.currentInput = '';
+                            }
+                            while (this.userInput.keys[13]) { /* Wait until ENTER released */ }
+                            break;
+
+                        case 8:  // BACK
+                            if (this.state.currentInput.length > 0) {
+                                this.state.currentInput = this.state.currentInput.slice(0, -1);
+                            }
+                            break;
+                    }
+                }
+            }
+        }
     }
-
-
 }

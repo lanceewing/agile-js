@@ -77,7 +77,6 @@ class UserInput {
      */
     async waitAcceptAbort() {
         let action;
-        let ignore;
 
         // Ignore anything currently on the key press queue.
         this.keyPressQueue = [];
