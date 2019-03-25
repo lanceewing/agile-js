@@ -135,6 +135,13 @@ class Interpreter {
     }
 
     /**
+     * Stops the sound thread if it is currently running.
+     */
+    stopSound() {
+        this.soundPlayer.stopSound();
+    }
+
+    /**
      * If the room has changed, then performs all the necessary updates to vars, flags, 
      * animated objects, controllers, and other state to prepare for entry in to the 
      * next room. If the room hasn't changed, it returns false up front and does nothing
@@ -143,8 +150,86 @@ class Interpreter {
      * @param {*} roomNum true if the room has changed; otherwise false.
      */
     newRoom(roomNum) {
-        // TODO: Implement.
-        return false;
+        // Has the room changed?
+        if (roomNum == this.state.currentRoom) return false;
+
+        // Simulate a slow room change if there is a text window open.
+        if (this.textGraphics.isWindowOpen()) {
+            let start = new Date().getTime();
+            while ((new Date().getTime() - start) < 1000) { 
+                // Spin wheels for 1 second. 
+            }
+        }
+
+        // Turn off sound.
+        this.soundPlayer.stopSound();
+
+        // Clear the script event buffer ready for next room.
+        this.state.scriptBuffer.initScript();
+        this.state.scriptBuffer.scriptOn();
+
+        // Resets the Logics, Views, Pictures and Sounds back to new room state.
+        this.state.resetResources();
+
+        // Carry over ego's view number.
+        // TODO: For some reason in MH2, the ego View can be null at this point. Needs investigation to determine why.
+        if (this.ego.view != null) {
+            this.state.vars[Defines.CURRENT_EGO] = this.ego.view.index;
+        }
+
+        // Reset state for all animated objects.
+        for (let aniObj of this.state.animatedObjects) {
+            aniObj.reset();
+        }
+
+        // Current room logic is loaded automatically on room change and not directly by load.logic
+        let logic = this.state.logics[roomNum];
+        logic.isLoaded = true;
+        this.state.scriptBuffer.addScript("LoadLogic", logic.index);
+
+        // If ego collided with a border, set his position in the new room to
+        // the appropriate edge of the screen.
+        switch (this.state.vars[Defines.EGOEDGE]) {
+            case 1: // TOP
+                this.ego.y = Defines.MAXY;
+                break;
+
+            case 2: // RGHT
+                this.ego.x = Defines.MINX;
+                break;
+
+            case 3: // BOTTOM
+                this.ego.y = Defines.HORIZON + 1;
+                break;
+
+            case 4: // LEFT
+                this.ego.x = (Defines.MAXX + 1 - this.ego.xSize);
+                break;
+        }
+
+        // Change the room number. Note that some games, e.g. MH2, change the CURROOM VAR directly, 
+        // which is why we also track the CurrentRoom in a separate state variable. We can't rely
+        // on the AGI VAR that stores the current room.
+        this.state.vars[Defines.PREVROOM] = this.state.currentRoom;
+        this.state.vars[Defines.CURROOM] = this.state.currentRoom = roomNum;
+
+        // Set flags and vars as appropriate for a new room.
+        this.state.vars[Defines.OBJHIT] = 0;
+        this.state.vars[Defines.OBJEDGE] = 0;
+        this.state.vars[Defines.UNKNOWN_WORD] = 0;
+        this.state.vars[Defines.EGOEDGE] = 0;
+        this.state.flags[Defines.INPUT] = false;
+        this.state.flags[Defines.INITLOGS] = true;
+        this.state.userControl = true;
+        this.state.blocking = false;
+        this.state.horizon = Defines.HORIZON;
+        this.state.clearControllers();
+
+        // Draw the status line background if applicable.
+        if (this.state.showStatusLine) this.textGraphics.clearLines(this.state.statusLineRow, this.state.statusLineRow, 15);
+
+        // Return true to indicate to the scan loop to rescan.
+        return true;
     }
 
     /**
